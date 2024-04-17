@@ -1,7 +1,9 @@
 package com.timnjonjo.cards.api;
 
 import com.timnjonjo.cards.data.CardDto;
+import com.timnjonjo.cards.data.CreateCardRequest;
 import com.timnjonjo.cards.services.CardService;
+import jakarta.persistence.Id;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,14 @@ public class CardsApiResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CardDto payload) {
+    public void create(@RequestBody CreateCardRequest payload) {
         this.cardsService.create(payload);
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void update(@PathVariable String id,@RequestBody CardDto payload) {
+        this.cardsService.update(id, payload);
     }
 
     @GetMapping("{id}")
@@ -32,5 +40,4 @@ public class CardsApiResource {
     public void delete(@PathVariable String id) {
         this.cardsService.delete(id);
     }
-
 }

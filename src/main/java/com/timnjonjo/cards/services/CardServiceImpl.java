@@ -1,6 +1,7 @@
 package com.timnjonjo.cards.services;
 
 import com.timnjonjo.cards.data.CardDto;
+import com.timnjonjo.cards.data.CreateCardRequest;
 import com.timnjonjo.cards.persistence.Card;
 import com.timnjonjo.cards.persistence.CardRepository;
 import com.timnjonjo.cards.persistence.User;
@@ -17,7 +18,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void create(CardDto payload) {
+    public void create(CreateCardRequest payload) {
         log.info("Creating card {}", payload);
         Card card = new Card(payload);
         try {
@@ -40,6 +41,15 @@ public class CardServiceImpl implements CardService {
         log.info("Deleting card {}", id);
         Card card = getCard(id);
         this.cardRepository.delete(card);
+        log.info("Card {} deleted", id);
+    }
+    @Override
+    public void update(String id, CardDto payload) {
+        log.info("Updating card {}", id);
+        Card card = getCard(id);
+        card.update(payload);
+        this.cardRepository.save(card);
+        log.info("Card {} updated", id);
     }
 
     private Card getCard(String id) {
